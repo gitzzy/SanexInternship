@@ -1,7 +1,10 @@
 const exp = require('express')
 const data = require('./MOCK_DATA.json')
+const fs = require('fs')
 const app = exp()
 const port = 3000
+
+app.use(exp.urlencoded({extended:false}))
 
 app.get('/' , (req,res) => {
     res.send('Working')
@@ -25,6 +28,19 @@ app.get('/api/users/:id' ,(req,res) => {
     const user = data.find((user) => user.id === id)
     return res.json(user)
 })
+
+
+app.post('/api/users' ,(req,res) => {
+    const body = req.body
+    data.push({...body, id:data.length +1})
+    fs.writeFile('./MOCK_DATA.json',JSON.stringify(data) ,(err,result) => {
+        if(err){
+            console.log('error while adding data')
+        }
+    } )
+    console.log(req.body)
+})
+
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
