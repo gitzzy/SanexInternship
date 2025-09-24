@@ -4,16 +4,17 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Taskadd from './components/Taskadd'
 import Taskui from './components/Taskui'
+import MouseEvent from './components/MouseEvent'
 
 function App() {
   const [arr , setArr] = useState([])
   return (
     <>
-      <Taskadd arr={arr} setArr={setArr}/>
+      {/* <Taskadd arr={arr} setArr={setArr}/>
       {arr.map((task,index) => (
           <Taskui key={index} index={index} task={task}/>
-      ))}
-     
+      ))} */}
+     <MouseEvent/>
     </>
   )
 }
