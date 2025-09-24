@@ -6,6 +6,7 @@ import Taskadd from './components/Taskadd'
 import Taskui from './components/Taskui'
 import MouseEvent from './components/MouseEvent'
 import KeyEvents from './components/KeyEvents'
+import ClipEvent from './components/ClipEvent'
 
 function App() {
   const [arr , setArr] = useState([])
@@ -17,6 +18,7 @@ function App() {
       ))} */}
      <MouseEvent/>
      <KeyEvents/>
+     <ClipEvent/>
     </>
   )
 }
