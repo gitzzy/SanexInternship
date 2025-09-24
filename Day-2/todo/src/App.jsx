@@ -5,6 +5,7 @@ import './App.css'
 import Taskadd from './components/Taskadd'
 import Taskui from './components/Taskui'
 import MouseEvent from './components/MouseEvent'
+import KeyEvents from './components/KeyEvents'
 
 function App() {
   const [arr , setArr] = useState([])
@@ -15,6 +16,7 @@ function App() {
           <Taskui key={index} index={index} task={task}/>
       ))} */}
      <MouseEvent/>
+     <KeyEvents/>
     </>
   )
 }
