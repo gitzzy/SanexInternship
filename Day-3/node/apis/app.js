@@ -1,6 +1,7 @@
 const exp = require('express')
 const data = require('./MOCK_DATA.json')
 const fs = require('fs')
+const { error } = require('console')
 const app = exp()
 const port = 3000
 
@@ -50,6 +51,22 @@ app.route('/api/users/:id')
             })
         } else {
             res.send('No user found')
+        }
+    })
+    .patch((req,res) => {
+        const id = Number(req.params.id)
+        const userIndex = data.findIndex(u => u.id === id)
+
+        if(userIndex == -1){
+            res.status(404)
+            console.log('User not found')
+        }else{
+            data[userIndex] = {...data[userIndex] , ...req.body}
+            fs.writeFile('./MOCK_DATA.json',JSON.stringify(data,null,2),(err) => {
+                if(error){
+                    console.log('error while updating data')
+                }
+            })
         }
     })
 
