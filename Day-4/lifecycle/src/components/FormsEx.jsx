@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import "../App.css";
 
-export default function FormsEx() {
-    const [name,setName] = useState('')
+export default function FormsEx({name,setName}) {
     const [phone , setPhone] = useState('')
 
     const handleSubmit = () => {
         console.log(`${name} : ${phone}`)
     }
-    
+
   return (
     <div className="main-div">
       <div className="form-div">
