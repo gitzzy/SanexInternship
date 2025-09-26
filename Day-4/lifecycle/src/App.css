@@ -1,0 +1,22 @@
+.main-div{
+    justify-items: center;
+    align-items: center;
+    font-size: xx-large;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.form-div{
+    display: flex;
+    flex-direction: column;
+    border: 1px black solid;
+    width: fit-content;
+    padding: 5px;
+    gap:10px;
+}
+
+.name-div{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
