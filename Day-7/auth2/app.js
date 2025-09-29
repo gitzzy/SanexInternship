@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { userModel } from './models/user.js';
-import {bcrypt} from 'bcrypt'
+import bcrypt from 'bcrypt';
 
 const app = express();
 const port = 1234;
@@ -12,24 +12,30 @@ const port = 1234;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-app.set('view engine','ejs');
+app.set('view engine', 'ejs');
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
-app.get('/', (req,res) => {
+app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.post('/create', async (req,res) => {
-    let {name,username,password} = req.body;
-    
-    let user = await userModel.create({
-        name,username,password
-    });
-    res.send(user);
-    bcrypt.genSalt(10,)
+app.post('/create', async (req, res) => {
+    let { name, username, password } = req.body;
+
+    await bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt, async (err, hash) => {
+            let user = await userModel.create({
+                name, username, hash
+            });
+            res.send(user);
+        })
+    })
+
+
+
 });
 
 app.listen(port, () => {
