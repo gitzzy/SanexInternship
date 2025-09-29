@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { userModel } from './models/user.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const app = express();
 const port = 1234;
@@ -28,15 +29,37 @@ app.post('/create', async (req, res) => {
     await bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, async (err, hash) => {
             let user = await userModel.create({
-                name, username, hash
+                name, username, password:hash
             });
+            let token = jwt.sign({username},'secret')
+            res.cookie('username',token)
             res.send(user);
         })
     })
-
-
-
 });
+
+app.get('/login',(req,res) => {
+   res.render('login'); 
+})
+
+app.post('/login',async(req,res) => {
+   let user = await userModel.findOne({username:req.body.username})
+   if (!user) return res.send('something went wrong');
+
+   bcrypt.compare(req.body.password,user.password,(err,result) => {
+    if(result){
+        res.send('Login success')
+    }else{
+        res.send('Login failed')
+    }
+    console.log(result)
+   })
+})
+
+app.get('/logout' , (req,res) => {
+    res.cookie('username','')
+    res.redirect('/')
+})
 
 app.listen(port, () => {
     console.log(`App is running : http://localhost:${port}/`);
